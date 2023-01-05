@@ -10,6 +10,7 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 
@@ -61,3 +62,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Ignore the entire NaughtyAttributes asset folder, that should be handled via packages, not in git.
+/[Aa]ssets/[Nn]aughtyAttributes/
+
+# never store user session stuff in the repo.
+UserSettings/
