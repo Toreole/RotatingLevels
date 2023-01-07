@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private Rigidbody2D body;
+    [SerializeField]
+    private float moveSpeed = 3;
 
     [InputAxis, SerializeField]
     private string horizontalInput, jumpInput, rotateInput, pauseInput;
@@ -29,29 +31,84 @@ public class PlayerController : MonoBehaviour
     private Coroutine crRotate = null;
     private float levelRotation = 0;
 
+    private bool awake = true;
+
     private void Start()
     {
+        awake = startsAwake;
         transform.SetParent(levelPivot);
         physicsController.Simulate = true;
+        spriteRenderer.color = awake ? awakeColor : sleepColor;
     }
 
     void Update()
     {
+        if(!awake)
+        {
+            WaitToWakeUp();
+            return;
+        }
         if(crRotate == null)
         {
-            if (Input.GetButton(rotateInput))
-            {
-                crRotate = StartCoroutine(CoRotateLevel());
-            }
-
             //quick and dirty ground check.
-            if(Physics2D.Raycast(transform.position, Vector2.down, 0.54f))
+            if(IsOnGround())
             {
-                Vector2 v = new Vector2(Input.GetAxis(horizontalInput), 0);
-                v *= 3f; //replace with speed var
+                if (Input.GetButton(rotateInput))
+                {
+                    crRotate = StartCoroutine(CoRotateLevel());
+                    return;
+                }
+
+                Vector2 v = new Vector2(Input.GetAxisRaw(horizontalInput) * moveSpeed, 0);
+               
+                body.velocity = v;
+            }
+            else
+            {
+                Vector2 v = body.velocity;
+                v.x = 0;
+                v.y = Mathf.Min(-0.5f, v.y);
                 body.velocity = v;
             }
         }
+    }
+
+    private bool IsOnGround()
+    {
+        Vector2 pos = transform.position;
+        Vector2 widthOffset = new Vector2(0.5f, 0);
+        RaycastHit2D hit = Physics2D.CircleCast(pos + widthOffset, 0.05f, Vector2.down, 0.54f);
+        RaycastHit2D hit2 = Physics2D.CircleCast(pos - widthOffset, 0.05f, Vector2.down, 0.54f);
+
+        bool ground = hit && hit.normal.y > 0.75f;
+        ground |= hit2 && hit2.normal.y > 0.75f;
+
+        return ground;
+    }
+
+    private void WaitToWakeUp()
+    {
+        //any key that isnt pause
+        if(Input.anyKeyDown && !Input.GetButtonDown(pauseInput))
+        {
+            if(crRotate == null)
+            {
+                crRotate = StartCoroutine(CoWakeUp());
+            }
+        }
+    }
+
+    private IEnumerator CoWakeUp()
+    {
+        for(float t = 0; t < wakeUpTime; t += Time.deltaTime)
+        {
+            Color col = Color.Lerp(sleepColor, awakeColor, t / wakeUpTime);
+            spriteRenderer.color = col;
+            yield return null;
+        }
+        spriteRenderer.color = awakeColor;
+        awake = true;
+        crRotate = null;
     }
 
     private IEnumerator CoRotateLevel()

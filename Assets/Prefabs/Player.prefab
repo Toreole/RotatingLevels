@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8644967973855514861}
   - component: {fileID: 1516367848867889662}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 8455878958669852666}
   - component: {fileID: 8334869677771687255}
   - component: {fileID: 7590545742754150698}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,12 +131,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b31e6db0b55b6742a736d93a22aaa32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  physicsController: {fileID: 0}
+  levelPivot: {fileID: 0}
   spriteRenderer: {fileID: 1516367848867889662}
-  startsAwake: 1
+  startsAwake: 0
   sleepColor: {r: 0.4745098, g: 0.47843137, b: 0.5019608, a: 1}
-  awakeColor: {r: 0.25882354, g: 0.3137255, b: 0.6431373, a: 1}
+  awakeColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
   wakeUpTime: 0.75
   body: {fileID: 8334869677771687255}
+  horizontalInput: Horizontal
+  jumpInput: Jump
+  rotateInput: Rotate
+  pauseInput: Cancel
+  rotationTime: 0.8
 --- !u!50 &8334869677771687255
 Rigidbody2D:
   serializedVersion: 4
