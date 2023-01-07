@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2789622224791149420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.04, y: 1.04, z: 1.04}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7804007041080707181}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 7590545742754150698}
   m_Layer: 2
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,6 +139,7 @@ MonoBehaviour:
   awakeColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
   wakeUpTime: 0.75
   body: {fileID: 8334869677771687255}
+  moveSpeed: 3
   horizontalInput: Horizontal
   jumpInput: Jump
   rotateInput: Rotate
